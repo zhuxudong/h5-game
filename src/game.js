@@ -1,1 +1,1 @@
-import "../test/test"
+import "./page/wrapper/wrapper"

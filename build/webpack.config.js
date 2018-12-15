@@ -13,7 +13,8 @@ const base = require('./base')
 let config = {
     context: path.resolve(__dirname, '../'),
     entry: {
-        game: ["babel-polyfill", "./src/game.js"],
+        // game: ["babel-polyfill", "./src/game.js"],
+        game: ["./src/game.js"],
     },
     output: {
         path: path.resolve(__dirname, "../dist"),
