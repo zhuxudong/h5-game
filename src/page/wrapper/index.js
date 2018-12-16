@@ -8,7 +8,9 @@ class PageWrapper {
 
     constructor() {
         that = this;
-        $("body").append(this.$page);
+        $("body").append(this.$page).on('touchend touchstart', function (e) {
+            e.preventDefault();
+        });
         this.forcePortrait();
     }
 
