@@ -25,13 +25,15 @@ let config = {
     resolve: {
         extensions: ['.js', '.json'],
         alias: {
-            '@': path.resolve(__dirname, '../src')
+            '@': path.resolve(__dirname, '../src'),
+            'config': path.resolve(__dirname, '../src/config'),
+            'page': path.resolve(__dirname, '../src/page')
         }
     },
     externals: {},
     module: {
         rules: [
-            {test: /\.(htm|html)$/i, loader: "html-withimg-loader"},
+            {test: /\.(htm|html)$/i, loader: "html-loader"},
             {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
             {test: /\.ts$/, exclude: /node_modules/, loader: "ts-loader"},
             {

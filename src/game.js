@@ -1,1 +1,2 @@
-import "./page/wrapper/wrapper"
+import "page/wrapper/index"
+import "page/home1/index"

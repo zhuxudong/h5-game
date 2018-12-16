@@ -1,0 +1,122 @@
+.home1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: url("/static/img/home/snow-bg.png") left top /contain no-repeat, linear-gradient(to top, #38A9BD 0, #123747 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  .main {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  .score-container {
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .score {
+      padding: 5px 10px;
+      border-radius: 15px;
+      border: 2px solid #627884;
+      color: #fff;
+      font-weight: bold;
+      font-size: 16px;
+      background: #1E5172;
+      letter-spacing: 1px;
+    }
+  }
+  .title-container {
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .title {
+      height: 100%;
+      max-height: 128px;
+    }
+  }
+  .role-container {
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    .toggle-tip {
+      height: 27px;
+    }
+    .choose-container {
+      margin-top: 10px;
+      height: calc(~"100% - 37px");
+      max-height: 256px;
+      display: flex;
+      align-items: center;
+      .role {
+        height: 100%;
+        max-height: 256px;
+      }
+      .btn {
+        height: 100%;
+        max-height: 76px;
+      }
+      .next {
+        transform: rotate(180deg)
+      }
+    }
+  }
+  .btn-container {
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      height: 38px;
+    }
+  }
+  .ground-container {
+    .m1, .m2, .m3, .ground, .ball, .tree, .man {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
+    .ball {
+      width: 60px;
+      left: auto;
+      right: 0;
+      bottom: 110px;
+    }
+    .tree {
+      width: 100px;
+      bottom: calc(~"10% - 28px");
+    }
+    .man {
+      width: 56px;
+      bottom: 10px;
+      left: 50px;
+    }
+    .ground {
+      width: 100%;
+      height: calc(~"10% - 38px");
+    }
+  }
+  .setting-container {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    img {
+      margin-bottom: 10px;
+      display: block;
+      width: 30px;
+    }
+  }
+}
