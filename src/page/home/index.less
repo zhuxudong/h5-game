@@ -1,4 +1,4 @@
-.home1 {
+.home {
   position: absolute;
   left: 0;
   right: 0;
@@ -9,6 +9,9 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  &.page2 {
+    background: url("/static/img/home/snow-bg.png") left top /contain no-repeat, linear-gradient(to top, #F5BD53 0, #B62609 100%);
+  }
   .main {
     position: absolute;
     z-index: 1;
@@ -117,6 +120,9 @@
       margin-bottom: 10px;
       display: block;
       width: 30px;
+      &#musicClose {
+        display: none;
+      }
     }
   }
 }

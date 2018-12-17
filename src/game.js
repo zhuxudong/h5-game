@@ -1,2 +1,2 @@
 import "page/wrapper/index"
-import "page/home1/index"
+import "page/home/index"
