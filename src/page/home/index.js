@@ -1,5 +1,8 @@
 import page from "./index.html"
 import "./index.less"
+import storage from "config/storage"
+import wrapperPage from "page/wrapper/index"
+import scenePage from "page/scene/index"
 
 class PageHome {
     $page = $(page);
@@ -21,8 +24,8 @@ class PageHome {
     constructor() {
         $(".wrapper").append(this.$page);
         this.initEvents();
-        this.togglePage(2);
         this.togglePage(1);
+        this.showScore();
     }
 
     initEvents() {
@@ -40,13 +43,20 @@ class PageHome {
         this.$nextRole.on("touchstart ", () => {
             this.togglePage(this.curPage === 1 ? (this.curPage = 2) : (this.curPage = 1))
         })
+        this.$start.on("touchstart", () => {
+            this.hidePage();
+            scenePage.showPage();
+            wrapperPage.forceLandscape();
+        })
     }
 
     showScore(score) {
+        score = score || localStorage.getItem(storage.historyScore) || 0;
         this.$score.text(score)
     }
 
     togglePage(page) {
+        this.$page.show(0);
         this.curPage = page;
         if (page === 1) {
             this.$page.removeClass("page2");
@@ -73,6 +83,10 @@ class PageHome {
             this.$bg2.show(0);
             this.$bg1.hide(0);
         }
+    }
+
+    hidePage() {
+        this.$page.hide();
     }
 }
 

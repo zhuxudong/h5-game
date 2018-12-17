@@ -1,0 +1,105 @@
+@ground-height: 46px;
+@scene-width: 12164px /2;
+@duration: 15s;
+.scene {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  .score {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: 2px solid #627884;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    background: #1E5172;
+    letter-spacing: 1px;
+  }
+  .first-tip {
+    position: absolute;
+    width: 50%;
+    max-width: 380px;
+    left: 30px;
+    bottom: @ground-height;
+    z-index: 1;
+    opacity: .8;
+  }
+  .jump {
+    position: absolute;
+    height: 180px;
+    right: 30px;
+    bottom: 0;
+  }
+  .bg {
+    position: absolute;
+    width: @scene-width;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: url("/static/img/scene/scene1/bg2.png") left top/contain repeat;
+    img {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      z-index: -1;
+      &.bg1 {
+        height: 100%;
+      }
+      &.ground {
+        height: @ground-height;
+      }
+    }
+    .stone {
+      position: absolute;
+      bottom: @ground-height;
+      height: 48px;
+      width: auto;
+    }
+    @keyframes move1 {
+      0% {
+        left: 0;
+      }
+      100% {
+        left: -@scene-width;
+      }
+    }
+    @keyframes move2 {
+      0% {
+        left: @scene-width;
+      }
+      100% {
+        left: 0;
+      }
+    }
+    &.bg2 {
+      left: @scene-width;
+      &.move {
+        animation: move2 @duration infinite normal linear;
+      }
+    }
+    &.move {
+      animation: move1 @duration infinite normal linear;
+    }
+    &.pause {
+      animation-play-state: paused !important;
+    }
+  }
+  .role {
+    position: absolute;
+    bottom: @ground-height;
+    left: 30%;
+    height: 123px;
+    transform-origin: center bottom;
+    transition: transform .3s;
+    transform: scale(.6);
+    &.big {
+      transform: scale(1);
+    }
+  }
+}
