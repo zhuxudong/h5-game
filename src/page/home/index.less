@@ -35,6 +35,10 @@
       font-size: 16px;
       background: #1E5172;
       letter-spacing: 1px;
+      &.page2 {
+        background: #A3230A;
+        border-color: #CB6C56;
+      }
     }
   }
   .title-container {
@@ -86,11 +90,17 @@
     }
   }
   .ground-container {
-    .m1, .m2, .m3, .ground, .ball, .tree, .man {
+    .m1, .m2, .m3, .ground, .ball, .tree, .man, .stone, .bird {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
+    }
+    &.page2 .m2 {
+      bottom: 10px;
+    }
+    &.page2 .m3 {
+      bottom: 10px;
     }
     .ball {
       width: 60px;
@@ -107,6 +117,19 @@
       bottom: 10px;
       left: 50px;
     }
+    .bird {
+      width: auto;
+      height: 73px;
+      left: auto;
+      right: 10px;
+      bottom: 30%;
+    }
+    .stone {
+      width: 89px;
+      right: 0;
+      left: auto;
+      bottom: calc(~"10% - 38px");
+    }
     .ground {
       width: 100%;
       height: calc(~"10% - 38px");
@@ -114,12 +137,15 @@
   }
   .setting-container {
     position: absolute;
+    width: 30px;
     right: 10px;
     top: 10px;
+    z-index: 2;
     img {
       margin-bottom: 10px;
       display: block;
-      width: 30px;
+      height: 30px;
+      float: right;
       &#musicClose {
         display: none;
       }
