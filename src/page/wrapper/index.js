@@ -5,7 +5,7 @@ let that = null;
 
 class PageWrapper {
     $page = $(page);
-
+    status = "normal";//normal reverse
     constructor() {
         that = this;
         $("body").append(this.$page);
@@ -16,6 +16,7 @@ class PageWrapper {
     }
 
     normal() {
+        this.status = "normal";
         this.$page.css({
             left: "0",
             top: "0",
@@ -26,6 +27,7 @@ class PageWrapper {
     }
 
     reverse() {
+        this.status = "reverse";
         this.$page.css({
             left: "100%",
             top: "0",
@@ -36,7 +38,7 @@ class PageWrapper {
     }
 
     forcePortrait() {
-        if (window.innerWidth >= window.innerHeight) {
+        if (window.innerWidth > window.innerHeight) {
             that.reverse();
         } else {
             that.normal();

@@ -1,3 +1,4 @@
 export default {
-    historyScore: "historyScore"
+    historyScore: "historyScore",
+    playTimes:"playTimes"
 }

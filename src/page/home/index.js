@@ -3,6 +3,7 @@ import "./index.less"
 import storage from "config/storage"
 import wrapperPage from "page/wrapper/index"
 import scenePage from "page/scene/index"
+import scenePage2 from "page/scene2/index"
 
 class PageHome {
     $page = $(page);
@@ -45,8 +46,12 @@ class PageHome {
         })
         this.$start.on("touchstart", () => {
             this.hidePage();
-            scenePage.showPage();
             wrapperPage.forceLandscape();
+            if (this.curPage === 1) {
+                scenePage.showPage();
+            } else if (this.curPage === 2) {
+                scenePage2.showPage();
+            }
         })
     }
 
@@ -58,6 +63,7 @@ class PageHome {
     togglePage(page) {
         this.$page.show(0);
         this.curPage = page;
+        wrapperPage.forcePortrait();
         if (page === 1) {
             this.$page.removeClass("page2");
             this.$score.parent().removeClass("page2");
