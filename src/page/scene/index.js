@@ -1,12 +1,11 @@
 import page from "./index.html";
 import "./index.less";
+import storage from "config/storage";
+import {random, collide} from "./common";
 
-const SCENE_WIDTH = 12164 / 2;
-
-function random(min, max) {
-    return min + Math.random() * (max - min);
-}
-
+const SCENE_WIDTH = 12164 / 2;//2X.img
+const JUMP_TIME = 2;//can jump 2 times
+const SAFE_TIME = 2;//无敌
 
 class Scene {
     $page = $(page);
@@ -27,6 +26,8 @@ class Scene {
     showStoneTimeout = null;
     clearStoneTimeout = null;
     detectStoneTimeout = null;
+    roleStatus = "move";
+    safeStatus = false;
 
     constructor() {
         $(".wrapper").append(this.$page);
@@ -55,19 +56,28 @@ class Scene {
     start() {
         this.$bg1.addClass("move");
         this.$bg2.addClass("move");
-        clearTimeout(this.showStoneTimeout);
         this.cancelDetectCollide();
         this.startDetectCollide();
+        clearTimeout(this.showStoneTimeout);
         this.showStone();
     }
 
     showScore(score) {
-        this.curScore = parseInt(score);
+        score = parseInt(score);
+        this.curScore = score;
         this.$curScore.text(score);
+        let historyScore = localStorage.getItem(storage.historyScore) || 0;
+        if (score > historyScore) {
+            localStorage.setItem(storage.historyScore, score);
+        }
+    }
+
+    addScore(num) {
+        this.showScore(parseInt(this.curScore) + parseInt(num));
     }
 
     jump() {
-        if (this.jumpTime >= 2 || this.die)
+        if (this.jumpTime >= JUMP_TIME || this.die)
             return;
         this.setRole("jump");
         this.jumpTime++;
@@ -90,6 +100,7 @@ class Scene {
 
     //move ,jump,die,normal,big
     setRole(status) {
+        this.roleStatus = status;
         switch (status) {
             case "normal":
                 this.$role.removeClass("big");
@@ -118,7 +129,6 @@ class Scene {
     }
 
     showStone() {
-        console.log("showstone")
         let position1 = this.$bg1.position();
         let position2 = this.$bg2.position();
         let stoneIndex = Math.random() < .5 ? 1 : 2;
@@ -137,24 +147,27 @@ class Scene {
         this.showStoneTimeout = setTimeout(this.showStone.bind(this), random(this.minGap, this.maxGap))
     }
 
-    collide($dom1, $dom2) {
-        let rect1 = $dom1[0].getBoundingClientRect();
-        let rect2 = $dom2[0].getBoundingClientRect();
-        return rect1.x < rect2.x + rect2.width &&
-            rect1.x + rect1.width > rect2.x &&
-            rect1.y < rect2.y + rect2.height &&
-            rect1.height + rect1.y > rect2.y
-
-    }
-
     startDetectCollide() {
         let die = false;
-        this.$page.find(".bg .stone").each((i, dom) => {
-            if (this.collide($(dom), this.$role)) {
-                this.onDie();
-                die = true;
-            }
-        })
+        //stone
+        if (!this.safeStatus) {
+            this.$page.find(".bg .stone").each((i, dom) => {
+                if (collide($(dom), this.$role)) {
+                    if (this.roleStatus === "big") {
+                        this.setRole("normal");
+                        this.$role.addClass("shrink");
+                        this.safeStatus = true;
+                        setTimeout(() => {
+                            this.safeStatus = false;
+                            this.$role.removeClass("shrink");
+                        }, SAFE_TIME * 1000)
+                    } else {
+                        this.onDie();
+                        die = true;
+                    }
+                }
+            })
+        }
         if (die)
             return;
         this.detectStoneTimeout = requestAnimationFrame(this.startDetectCollide.bind(this));
