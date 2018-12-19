@@ -193,7 +193,7 @@ class Scene {
         let $stone = $(`<img class="stone" src="/static/img/scene/scene1/stone${stoneIndex}.png">`);
         let width = innerWidth >= innerHeight ? innerWidth : innerHeight;
         if ((wrapperPage.status === "normal" ? position2.left : position2.top) <= width) {
-            $stone.css("left", 0)
+            $stone.css("left", width)
         } else {
             $stone.css("left", -(wrapperPage.status === "normal" ? position1.left : position1.top) + width);
         }
