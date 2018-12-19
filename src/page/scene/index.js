@@ -263,8 +263,8 @@ class Scene {
                 }
             }
         })
-        if (die)
-            return;
+        // if (die)
+        //     return;
         this.$bg1.find(".star,.gift").each((i, dom) => {
             let $dom = $(dom);
             if (collide($dom, this.$role)) {
@@ -288,15 +288,14 @@ class Scene {
     }
 
     hideResult() {
-        this.$result.css("visibility", "hidden");
-        this.$resultAgain.hide(0);
-        this.$resultShop.hide(0);
-        this.$resultPass.hide(0);
+        this.$result.stop().hide(0);
+        this.$resultAgain.stop().hide(0);
+        this.$resultShop.stop().hide(0);
+        this.$resultPass.stop().hide(0);
     }
 
     showResult() {
-        this.hideResult();
-        this.$result.css("visibility", "unset");
+        this.$result.show(0);
         this.$scoreResult.text(this.curScore);
         this.$scoreResultHigh.text(localStorage.getItem(storage.historyScore) || 0);
         let type = "again";
@@ -313,13 +312,13 @@ class Scene {
         }
         switch (type) {
             case "again":
-                this.$resultAgain.fadeIn()
+                this.$resultAgain.stop().fadeIn(300)
                 break;
             case "shop":
-                this.$resultShop.fadeIn()
+                this.$resultShop.stop().fadeIn(300)
                 break;
             case "pass":
-                this.$resultPass.fadeIn()
+                this.$resultPass.stop().fadeIn(300)
                 break;
         }
     }

@@ -26,7 +26,6 @@ class PageHome {
         $(".wrapper").append(this.$page);
         this.initEvents();
         this.togglePage(1);
-        this.showScore();
     }
 
     initEvents() {
@@ -64,6 +63,7 @@ class PageHome {
         this.$page.show(0);
         this.curPage = page;
         wrapperPage.forcePortrait();
+        this.showScore();
         if (page === 1) {
             this.$page.removeClass("page2");
             this.$score.parent().removeClass("page2");
