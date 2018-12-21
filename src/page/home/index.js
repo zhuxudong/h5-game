@@ -80,7 +80,7 @@ class PageHome {
     }
 
     togglePage(page) {
-        this.$page.show(0);
+        this.$page.fadeIn();
         this.curPage = page;
         wrapperPage.forcePortrait();
         this.showScore();
@@ -120,7 +120,7 @@ class PageHome {
     }
 
     hidePage() {
-        this.$page.hide();
+        this.$page.hide(0);
     }
 }
 

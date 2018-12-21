@@ -17,7 +17,7 @@ const JUMP_HEIGHT = innerWidth > innerHeight ?
     (innerWidth < 423 ? (innerWidth - 123) / 2 : 150);
 //概率
 const STONE_MIN = JUMP_DURATION * 4;//stone appear
-const STONE_MAX = JUMP_DURATION * 24;
+const STONE_MAX = JUMP_DURATION * 12;
 const STAR_PERCENT = .1;// star appear
 const GIFT_MIN = JUMP_DURATION * 4; //tree appear
 const GIFT_MAX = JUMP_DURATION * 24;
@@ -74,7 +74,7 @@ class Scene {
             this.hideResult();
             let i = parseInt(random(1, 6));
             this.$result.stop().fadeIn();
-            this[`$resultP${i}`].stop().fadeIn(0);
+            this[`$resultP${i}`].stop().fadeIn();
         })
         this.$btnShop.on("touchend", () => {
             this.hidePage();
@@ -82,7 +82,7 @@ class Scene {
             window.open("http://wechat.robam.com/mall/index");
         })
         this.$btnShare.on("touchend", () => {
-            this.$resultShare.stop().fadeIn(0);
+            this.$resultShare.stop().fadeIn();
         })
         this.$btnAgain.on("touchend", () => {
             this.hidePage();
@@ -93,11 +93,11 @@ class Scene {
             this.hideResult();
             getAward().then((yes) => {
                 if (!yes) {
-                    this.$result.stop().fadeIn(0);
-                    this.$resultNo.stop().css("display", "block");
+                    this.$result.stop().fadeIn();
+                    this.$resultNo.stop().fadeIn();
                 } else {
-                    this.$result.stop().fadeIn(0);
-                    this.$resultYes.stop().css("display", "block");
+                    this.$result.stop().fadeIn();
+                    this.$resultYes.stop().fadeIn();
                 }
             })
         })
@@ -207,14 +207,14 @@ class Scene {
     }
 
     hidePage() {
-        this.$page.hide(0);
+        this.$page.stop().fadeOut();
         this.hideResult();
     }
 
     //theme
     showPage() {
         this.reset();
-        this.$page.show(0);
+        this.$page.stop().fadeIn();
     }
 
     showStone() {
@@ -321,22 +321,22 @@ class Scene {
     }
 
     hideResult() {
-        this.$result.stop().css("display", "none");
-        this.$resultRevive.stop().css("display", "none");
-        this.$resultShop.stop().css("display", "none");
-        this.$resultPass.stop().css("display", "none");
-        this.$resultYes.stop().css("display", "none");
-        this.$resultNo.stop().css("display", "none");
-        this.$resultP1.stop().css("display", "none");
-        this.$resultP2.stop().css("display", "none");
-        this.$resultP3.stop().css("display", "none");
-        this.$resultP4.stop().css("display", "none");
-        this.$resultP5.stop().css("display", "none");
-        this.$resultShare.stop().css("display", "none");
+        this.$result.stop().fadeOut();
+        this.$resultRevive.stop().fadeOut();
+        this.$resultShop.stop().fadeOut();
+        this.$resultPass.stop().fadeOut();
+        this.$resultYes.stop().fadeOut();
+        this.$resultNo.stop().fadeOut();
+        this.$resultP1.stop().fadeOut();
+        this.$resultP2.stop().fadeOut();
+        this.$resultP3.stop().fadeOut();
+        this.$resultP4.stop().fadeOut();
+        this.$resultP5.stop().fadeOut();
+        this.$resultShare.stop().fadeOut();
     }
 
     showResult() {
-        this.$result.fadeIn(0);
+        this.$result.stop().fadeIn();
         this.$scoreResult.text(this.curScore);
         this.$scoreResultHigh.text(localStorage.getItem(storage.historyScore) || 0);
         let type = "revive";
@@ -353,13 +353,13 @@ class Scene {
         }
         switch (type) {
             case "revive":
-                this.$resultRevive.css("display", "block");
+                this.$resultRevive.stop().fadeIn();
                 break;
             case "shop":
-                this.$resultShop.css("display", "block");
+                this.$resultShop.stop().fadeIn();
                 break;
             case "pass":
-                this.$resultPass.css("display", "block");
+                this.$resultPass.stop().fadeIn();
                 break;
         }
     }
