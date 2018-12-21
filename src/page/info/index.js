@@ -1,4 +1,6 @@
 import page from "./index.html"
+import pageScene1 from "page/scene/index"
+import pageScene2 from "page/scene2/index"
 import homePage from "page/home/index"
 import "./index.less";
 import provinceJSON from "config/province.json"
@@ -59,6 +61,8 @@ class Info {
         if (name && tel && province && city && address) {
             this.hidePage();
             homePage.togglePage(this.curPage);
+            pageScene1.hidePage();
+            pageScene2.hidePage();
         } else {
             alert("请填写所有字段!")
         }

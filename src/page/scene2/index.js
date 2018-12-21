@@ -4,7 +4,7 @@ import homePage from "page/home/index";
 import infoPage from "page/info/index";
 import "./index.less";
 import storage from "config/storage";
-import {random, collide, getAward} from "../scene/common";
+import {random, collide, getAward} from "../common";
 
 const MAX_PLAYTIMES = 5; //5次
 const SCENE_WIDTH = 12164 / 2;//2X.img
@@ -16,10 +16,10 @@ const JUMP_HEIGHT = innerWidth > innerHeight ?
     (innerHeight < 423 ? (innerHeight - 123) / 2 : 150) :
     (innerWidth < 423 ? (innerWidth - 123) / 2 : 150);
 //概率
-const STONE_MIN = JUMP_DURATION * 2;//stone appear
-const STONE_MAX = JUMP_DURATION * 8;
+const STONE_MIN = JUMP_DURATION * 4;//stone appear
+const STONE_MAX = JUMP_DURATION * 24;
 const STAR_PERCENT = .1;// star appear
-const GIFT_MIN = JUMP_DURATION * 8; //tree appear
+const GIFT_MIN = JUMP_DURATION * 4; //tree appear
 const GIFT_MAX = JUMP_DURATION * 24;
 
 class Scene {
@@ -107,6 +107,7 @@ class Scene {
         })
         this.$resultYes.on("touchend", () => {
             this.hideResult();
+            wrapperPage.forcePortrait();
             infoPage.showPage(2);
         })
     }
@@ -132,9 +133,9 @@ class Scene {
         this.cancelDetectCollide();
         this.startDetectCollide();
         clearTimeout(this.showStoneTimeout);
-        this.showStone();
+        setTimeout(this.showStone.bind(this), random(1000, 5000));
         clearTimeout(this.showGiftTimeout);
-        setTimeout(this.showGift.bind(this), 1000)
+        setTimeout(this.showGift.bind(this), random(1000, 5000));
     }
 
     showScore(score) {
