@@ -19,7 +19,7 @@ class PageHome {
     $start = this.$page.find("#start");
     $bg1 = this.$page.find(".ground-container.page1");
     $bg2 = this.$page.find(".ground-container.page2");
-    $resultShare = this.$page.find(".share-guide");
+    $resultShare = this.$page.find(".share-container");
     curPage = 1;
     $music1 = this.$page.find("#music1")[0];
     $music2 = this.$page.find("#music2")[0];
@@ -33,6 +33,9 @@ class PageHome {
 
     initEvents() {
         this.$share.on("touchstart", () => {
+            this.$resultShare.stop().fadeToggle();
+        })
+        this.$resultShare.on("touchend", () => {
             this.$resultShare.stop().fadeToggle();
         })
         this.$musicActive.on("touchstart", () => {
