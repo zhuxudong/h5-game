@@ -67,6 +67,7 @@ class Scene {
         this.$btnShop.on("touchend", () => {
             this.hidePage();
             homePage.togglePage(2);
+            window.open("http://wechat.robam.com/mall/index");
         })
         this.$btnShare.on("touchend", () => {
             this.hidePage();
@@ -290,14 +291,14 @@ class Scene {
     }
 
     hideResult() {
-        this.$result.stop().hide(0);
-        this.$resultAgain.stop().hide(0);
-        this.$resultShop.stop().hide(0);
-        this.$resultPass.stop().hide(0);
+        this.$result.stop().css("display", "none");
+        this.$resultAgain.stop().css("display", "none");
+        this.$resultShop.stop().css("display", "none");
+        this.$resultPass.stop().css("display", "none");
     }
 
     showResult() {
-        this.$result.show(0);
+        this.$result.fadeIn();
         this.$scoreResult.text(this.curScore);
         this.$scoreResultHigh.text(localStorage.getItem(storage.historyScore) || 0);
         let type = "again";
@@ -314,13 +315,13 @@ class Scene {
         }
         switch (type) {
             case "again":
-                this.$resultAgain.stop().fadeIn(300)
+                this.$resultAgain.css("display", "block");
                 break;
             case "shop":
-                this.$resultShop.stop().fadeIn(300)
+                this.$resultShop.css("display", "block");
                 break;
             case "pass":
-                this.$resultPass.stop().fadeIn(300)
+                this.$resultPass.css("display", "block");
                 break;
         }
     }

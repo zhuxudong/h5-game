@@ -15,7 +15,17 @@ function collide($dom1, $dom2) {
         height1 + rect1.top > rect2.top
 }
 
+function getAward() {
+    return new Promise((resolve, reject) => {
+        $.post("http://47.98.149.216/draw").done((result) => {
+            resolve(result.state)
+        }).catch(reject)
+    })
+
+}
+
 export {
     random,
-    collide
+    collide,
+    getAward
 }

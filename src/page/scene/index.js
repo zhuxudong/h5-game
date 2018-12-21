@@ -3,7 +3,7 @@ import wrapperPage from "page/wrapper/index";
 import homePage from "page/home/index";
 import "./index.less";
 import storage from "config/storage";
-import {random, collide} from "./common";
+import {random, collide, getAward} from "./common";
 
 const MAX_PLAYTIMES = 5; //5次
 const SCENE_WIDTH = 12164 / 2;//2X.img
@@ -29,6 +29,9 @@ class Scene {
     $resultAgain = this.$result.find(".result-again");
     $resultShop = this.$result.find(".result-shop");
     $resultPass = this.$result.find(".result-pass");
+    $resultNo = this.$result.find(".result-no");
+    f
+    $resultYes = this.$result.find(".result-yes");
     $btnAgain = this.$result.find(".btn-again");
     $btnShop = this.$result.find(".btn-shop");
     $btnShare = this.$result.find(".btn-share");
@@ -67,16 +70,30 @@ class Scene {
         this.$btnShop.on("touchend", () => {
             this.hidePage();
             homePage.togglePage(1);
+            window.open("http://wechat.robam.com/mall/index");
         })
         this.$btnShare.on("touchend", () => {
             this.hidePage();
             homePage.togglePage(1);
         })
         this.$resultPass.on("touchend", () => {
+            // this.hidePage();
+            // homePage.togglePage(1);
+            this.hideResult();
+            getAward().then((yes) => {
+                if (!yes) {
+                    this.$result.fadeIn();
+                    this.$resultNo.css("display", "block");
+                } else {
+
+                }
+            })
+
+        })
+        this.$resultNo.on("touchend", () => {
             this.hidePage();
             homePage.togglePage(1);
         })
-
     }
 
     reset(showTip = true) {
@@ -288,37 +305,39 @@ class Scene {
     }
 
     hideResult() {
-        this.$result.stop().hide(0);
-        this.$resultAgain.stop().hide(0);
-        this.$resultShop.stop().hide(0);
-        this.$resultPass.stop().hide(0);
+        this.$result.stop().css("display", "none");
+        this.$resultAgain.stop().css("display", "none");
+        this.$resultShop.stop().css("display", "none");
+        this.$resultPass.stop().css("display", "none");
+        this.$resultYes.stop().css("display", "none");
+        this.$resultNo.stop().css("display", "none");
     }
 
     showResult() {
-        this.$result.show(0);
+        this.$result.fadeIn();
         this.$scoreResult.text(this.curScore);
         this.$scoreResultHigh.text(localStorage.getItem(storage.historyScore) || 0);
         let type = "again";
         let playTimes = localStorage.getItem(storage.playTimes) || 0;
         localStorage.setItem(storage.playTimes, playTimes - 0 + 1);
-        if (this.curScore < 60) {
-            if (playTimes < MAX_PLAYTIMES) {
-                type = "again";
-            } else {
-                type = "shop";
-            }
-        } else {
-            type = "pass";
-        }
+        // if (this.curScore < 60) {
+        //     if (playTimes < MAX_PLAYTIMES) {
+        //         type = "again";
+        //     } else {
+        //         type = "shop";
+        //     }
+        // } else {
+        type = "pass";
+        // }
         switch (type) {
             case "again":
-                this.$resultAgain.stop().fadeIn(300)
+                this.$resultAgain.css("display", "block");
                 break;
             case "shop":
-                this.$resultShop.stop().fadeIn(300)
+                this.$resultShop.css("display", "block");
                 break;
             case "pass":
-                this.$resultPass.stop().fadeIn(300)
+                this.$resultPass.css("display", "block");
                 break;
         }
     }
