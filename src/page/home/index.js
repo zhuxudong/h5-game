@@ -21,6 +21,9 @@ class PageHome {
     $bg2 = this.$page.find(".ground-container.page2");
     $resultShare = this.$page.find(".share-guide");
     curPage = 1;
+    $music1 = this.$page.find("#music1")[0];
+    $music2 = this.$page.find("#music2")[0];
+    musicActive = true;
 
     constructor() {
         $(".wrapper").append(this.$page);
@@ -35,10 +38,21 @@ class PageHome {
         this.$musicActive.on("touchstart", () => {
             this.$musicClose.show(0);
             this.$musicActive.hide(0);
+            this.$music2.pause();
+            this.$music1.pause();
+            this.musicActive = false;
         })
         this.$musicClose.on("touchstart ", () => {
             this.$musicActive.show(0);
             this.$musicClose.hide(0);
+            this.musicActive = true;
+            if (this.curPage === 1) {
+                this.$music1.play();
+                this.$music2.pause();
+            } else if (this.curPage === 2) {
+                this.$music1.pause();
+                this.$music2.play();
+            }
         })
         this.$prevRole.on("touchstart ", () => {
             this.togglePage(this.curPage === 1 ? (this.curPage = 2) : (this.curPage = 1))
@@ -79,6 +93,10 @@ class PageHome {
             this.$share.attr("src", "/static/img/home/share.png");
             this.$bg1.show(0);
             this.$bg2.hide(0);
+            if (this.musicActive) {
+                this.$music2.pause();
+                this.$music1.play();
+            }
         } else if (page === 2) {
             this.$page.addClass("page2");
             this.$score.parent().addClass("page2");
@@ -91,6 +109,10 @@ class PageHome {
             this.$share.attr("src", "/static/img/home/page2/share.png");
             this.$bg2.show(0);
             this.$bg1.hide(0);
+            if (this.musicActive) {
+                this.$music1.pause();
+                this.$music2.play();
+            }
         }
     }
 
