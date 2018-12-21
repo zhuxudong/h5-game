@@ -210,6 +210,39 @@
       &.result-yes {
         width: 228px;
         height: 201px;
+        img:last-child {
+          position: absolute;
+          top: -60px;
+          left: -85px;
+          height: 181px;
+        }
+      }
+      &.result-product {
+        width: 275px;
+        height: 253px;
+        img:nth-child(2) {
+          position: absolute;
+          top: 55px;
+          height: 130px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        img:nth-child(3) {
+          margin-top: 10px;
+          height: 35px;
+          margin-left: 60px;
+        }
+        span {
+          position: absolute;
+          width: 100%;
+          top: 200px;
+          left: 0;
+          text-align: center;
+          letter-spacing: 1px;
+          font-weight: bold;
+          white-space: nowrap;
+          font-size: 14px;
+        }
       }
       > img:first-child {
         width: 100%;
@@ -255,6 +288,13 @@
           font-size: 18px;
         }
       }
+    }
+    .share-guide {
+      position: absolute;
+      width: 66px;
+      right: 5px;
+      top: 5px;
+      display: none;
     }
   }
 }

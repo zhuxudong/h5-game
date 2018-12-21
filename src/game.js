@@ -2,6 +2,7 @@ import "page/wrapper/index"
 import "page/home/index"
 import "page/scene/index"
 import "page/scene2/index"
+import "page/info/index"
 
 class Game {
     constructor() {
