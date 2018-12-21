@@ -283,7 +283,7 @@ class Scene {
         let die = false;
         //stone
         this.$bg1.find(".stone").each((i, dom) => {
-            if (collide($(dom), this.$role)) {
+            if (collide(this.$role, $(dom))) {
                 if (this.safeStatus) {
                     this.setRole("normal");
                     this.$role.addClass("shrink");
@@ -302,7 +302,7 @@ class Scene {
             return;
         this.$bg1.find(".star,.gift").each((i, dom) => {
             let $dom = $(dom);
-            if (collide($dom, this.$role)) {
+            if (collide(this.$role, $dom, 0, 0)) {
                 let score = $dom.data("score");
                 let $score = $dom.data("$score");
                 $dom.data("score", 0);
