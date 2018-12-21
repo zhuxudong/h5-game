@@ -30,7 +30,6 @@ class Scene {
     $resultShop = this.$result.find(".result-shop");
     $resultPass = this.$result.find(".result-pass");
     $resultNo = this.$result.find(".result-no");
-    f
     $resultYes = this.$result.find(".result-yes");
     $btnAgain = this.$result.find(".btn-again");
     $btnShop = this.$result.find(".btn-shop");
