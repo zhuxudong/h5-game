@@ -26,7 +26,7 @@ function collide($dom1, $dom2, difX, difY) {
 
 function getAward() {
     return new Promise((resolve, reject) => {
-        $.post("http://47.98.149.216/draw").done((result) => {
+        $.post("https://forreall.cn/h5xmas/draw/public/index.php/draw").done((result) => {
             resolve(result.state)
         }).catch(reject)
     })
@@ -35,7 +35,7 @@ function getAward() {
 function postInfo(name, phone, province, city, address) {
     return new Promise((resolve, reject) => {
         let settings = {
-            "url": "http://47.98.149.216/save",
+            "url": "https://forreall.cn/h5xmas/draw/public/index.php/save",
             "method": "POST",
             "timeout": 0,
             "headers": {
