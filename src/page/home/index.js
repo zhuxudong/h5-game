@@ -72,7 +72,7 @@ class PageHome {
                 this.$music2.play();
             }
         })
-        this.$prevRole.on("touchend ", () => {
+        this.$prevRole.on("touchstart ", (e) => {
             this.togglePage(this.curPage === 1 ? (this.curPage = 2) : (this.curPage = 1));
             return false;
         })
