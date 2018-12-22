@@ -91,7 +91,7 @@ class Scene {
         this.$btnShop.on("touchend", () => {
             this.hidePage();
             homePage.togglePage(2);
-            window.open("http://wechat.robam.com/mall/index");
+            window.open("https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzA3NDE3NTEyOQ==&scene=126&bizpsid=0#wechat_redirect");
         })
         this.$btnShare.on("touchend", () => {
             this.$resultShare.stop().fadeIn();
