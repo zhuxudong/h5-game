@@ -43,12 +43,12 @@
     height: 100%;
     left: 0;
     top: 0;
+    background: linear-gradient(to top, #37A4BD 0%, #143B4D 80%, #0D2937 100%);
     //background: url("/static/img/scene/scene1/bg2.png") left top/contain repeat;
     img {
       position: absolute;
       width: 100%;
       bottom: 0;
-      z-index: -1;
       &.bg1 {
         height: 100%;
       }
@@ -59,8 +59,9 @@
     }
     .gift-container {
       position: absolute;
-      height: 250px;
-      width: 280px;
+      height: 60%;
+      max-height: 250px;
+      width: 200px;
       bottom: @ground-height;
       z-index: 1;
       .tree {

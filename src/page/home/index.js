@@ -72,11 +72,13 @@ class PageHome {
                 this.$music2.play();
             }
         })
-        this.$prevRole.on("touchstart ", () => {
-            this.togglePage(this.curPage === 1 ? (this.curPage = 2) : (this.curPage = 1))
+        this.$prevRole.on("touchend ", () => {
+            this.togglePage(this.curPage === 1 ? (this.curPage = 2) : (this.curPage = 1));
+            return false;
         })
-        this.$nextRole.on("touchstart ", () => {
-            this.togglePage(this.curPage === 1 ? (this.curPage = 2) : (this.curPage = 1))
+        this.$nextRole.on("touchend ", () => {
+            this.togglePage(this.curPage === 1 ? (this.curPage = 2) : (this.curPage = 1));
+            return false;
         })
         this.$start.on("touchstart", () => {
             this.hidePage();

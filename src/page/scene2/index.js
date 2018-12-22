@@ -11,7 +11,7 @@ const SCENE_WIDTH = 12164 / 2;//2X.img
 const SCENE_DURATION = 15000;//15s
 const JUMP_TIME = 2;//can jump 2 times
 const SAFE_TIME = 2;//无敌
-const JUMP_DURATION = 350;//350ms
+const JUMP_DURATION = 300;//350ms
 const JUMP_HEIGHT = innerWidth > innerHeight ?
     (innerHeight < 423 ? (innerHeight - 123) / 2 : 150) :
     (innerWidth < 423 ? (innerWidth - 123) / 2 : 150);
@@ -248,7 +248,7 @@ class Scene {
         //clear when die
         this.clearStoneTimeout = setTimeout(() => {
             $stone.remove();
-        }, (width + 150) / SCENE_WIDTH * SCENE_DURATION)
+        }, (width * 2 + 300) / SCENE_WIDTH * SCENE_DURATION)
         this.showStoneTimeout = setTimeout(this.showStone.bind(this), random(STONE_MIN, STONE_MAX))
     }
 
@@ -266,12 +266,12 @@ class Scene {
         let $score = $(`<img class="${isStar ? 'score30' : 'score5'}" src="/static/img/scene/scene1/${scoreImg}">`)
         let width = innerWidth >= innerHeight ? innerWidth : innerHeight;
         if ((wrapperPage.status === "normal" ? position2.left : position2.top) <= width) {
-            $giftContainer.css("left", 0)
+            $giftContainer.css("left", width)
         } else {
             $giftContainer.css("left", -(wrapperPage.status === "normal" ? position1.left : position1.top) + width);
         }
-        let bottom = random(50, 100) + "%";
-        let left = random(10, 80) + "%";
+        let bottom = random(50, 95) + "%";
+        let left = random(0, 60) + "%";
         $gift.css({
             bottom,
             left
@@ -289,7 +289,7 @@ class Scene {
         //clear when die
         this.clearGiftTimeout = setTimeout(() => {
             $giftContainer.remove();
-        }, (width + 300) / SCENE_WIDTH * SCENE_DURATION)
+        }, (width * 2 + 500) / SCENE_WIDTH * SCENE_DURATION)
         this.showGiftTimeout = setTimeout(this.showGift.bind(this), random(GIFT_MIN, GIFT_MAX));
     }
 
