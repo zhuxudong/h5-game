@@ -72,6 +72,15 @@ class PageHome {
                 scenePage2.showPage();
             }
         })
+        this.$page.on("touchstart", () => {
+            if (this.musicActive) {
+                if (this.curPage === 1) {
+                    this.$music1.play();
+                } else if (this.curPage === 2) {
+                    this.$music2.play();
+                }
+            }
+        })
     }
 
     showScore(score) {
