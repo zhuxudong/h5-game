@@ -61,6 +61,7 @@ class Scene {
     safeStatus = false;
     safeTimeout = null;
     over30 = false; //bigger only once
+    bgTimeout = null;//css无法控制
 
     constructor() {
         $(".wrapper").append(this.$page);

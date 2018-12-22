@@ -62,6 +62,7 @@ class Scene {
     safeStatus = false;
     safeTimeout = null;
     over30 = false; //bigger only once
+    bgTimeout = null;//css无法控制
 
     constructor() {
         $(".wrapper").append(this.$page);
@@ -164,6 +165,10 @@ class Scene {
         setTimeout(this.showStone.bind(this), random(1000, 5000));
         clearTimeout(this.showGiftTimeout);
         setTimeout(this.showGift.bind(this), random(1000, 5000));
+        clearInterval(this.bgTimeout);
+        // this.bgTimeout = setTimeout(() => {
+        //     this.$bg1.css("")
+        // }, 1000 / 60)
     }
 
     showScore(score) {
@@ -411,6 +416,7 @@ class Scene {
         clearTimeout(this.clearStoneTimeout);
         clearTimeout(this.showGiftTimeout);
         clearTimeout(this.clearGiftTimeout);
+        clearTimeout(this.bgTimeout);
         this.setRole("die");
         this.showResult();
     }

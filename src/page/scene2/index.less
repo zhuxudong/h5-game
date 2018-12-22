@@ -49,13 +49,14 @@
     height: 100%;
     left: 0;
     top: 0;
-    background: url("/static/img/scene/scene1/bg2.png") left top/contain repeat, linear-gradient(to top, #EEB04F 0%, #C75526 50%, #B6280C 100%);
+    background: linear-gradient(to top, #EEB04F 0%, #C75526 50%, #B6280C 100%);
     img {
       position: absolute;
       width: 100%;
       bottom: 0;
       &.star {
-        //height: 100%;
+        bottom: auto;
+        top: 0;
       }
       &.ground {
         height: @ground-height;
