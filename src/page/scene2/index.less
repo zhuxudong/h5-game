@@ -295,9 +295,15 @@
     .share-guide {
       position: absolute;
       width: 66px;
-      right: 5px;
+      right: 15px;
       top: 5px;
       display: none;
+      &.reverse {
+        right: auto;
+        left: 10px;
+        top: 15px;
+        transform: scaleX(-1);
+      }
     }
   }
 }
