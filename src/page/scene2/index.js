@@ -216,7 +216,7 @@ class Scene {
     //theme
     showPage() {
         this.reset();
-        this.$page.stop.fadeIn(0);
+        this.$page.stop().fadeIn(0);
     }
 
     showStone() {
