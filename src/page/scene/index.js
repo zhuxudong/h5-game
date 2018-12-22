@@ -16,11 +16,14 @@ const JUMP_HEIGHT = innerWidth > innerHeight ?
     (innerHeight < 423 ? (innerHeight - 123) / 2 : 150) :
     (innerWidth < 423 ? (innerWidth - 123) / 2 : 150);
 //概率
-const STONE_MIN = JUMP_DURATION * 4;//stone appear
-const STONE_MAX = JUMP_DURATION * 12;
-const STAR_PERCENT = .1;// star appear
+let STONE_MIN = JUMP_DURATION * 8;//stone appear
+let STONE_MAX = JUMP_DURATION * 16;
+const STAR_PERCENT = .05;// star appear
 const GIFT_MIN = JUMP_DURATION * 4; //tree appear
 const GIFT_MAX = JUMP_DURATION * 24;
+
+//难度递增分数
+const LEVEL_DIF = 30;
 
 class Scene {
     $page = $(page);
@@ -63,6 +66,15 @@ class Scene {
     constructor() {
         $(".wrapper").append(this.$page);
         this.initEvents();
+    }
+
+    toggleLevel(n) {
+        // this.$bg1.removeClass("level1 level2 level3 level4 level5");
+        // this.$bg1.removeClass("level1 level2 level3 level4 level5");
+        // this.$bg1.addClass("level" + n);
+        // this.$bg2.addClass("level" + n);
+        STONE_MIN = JUMP_DURATION * (8 - (n - 1));
+        STONE_MAX = JUMP_DURATION * (16 - 2 * (n - 1));
     }
 
     initEvents() {
@@ -127,6 +139,7 @@ class Scene {
     }
 
     reset(showTip = true) {
+        this.toggleLevel(1);
         this.showScore(0);
         this.over30 = false;
         this.die = false;
@@ -164,6 +177,15 @@ class Scene {
             if (!this.over30) {
                 this.setRole("big");
                 this.over30 = true;
+            }
+            if (score >= 30 + LEVEL_DIF * 3) {
+                this.toggleLevel(5)
+            } else if (score >= 30 + LEVEL_DIF * 2) {
+                this.toggleLevel(4)
+            } else if (score >= 30 + LEVEL_DIF * 1) {
+                this.toggleLevel(3)
+            } else {
+                this.toggleLevel(2);
             }
         }
     }

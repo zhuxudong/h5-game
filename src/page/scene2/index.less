@@ -1,6 +1,10 @@
 @ground-height: 46px;
 @scene-width: 12164px /2;
 @duration: 15s;
+@duration2: 13s;
+@duration3: 11s;
+@duration4: 9s;
+@duration5: 7s;
 .scene2 {
   display: none;
   position: absolute;
@@ -45,14 +49,13 @@
     height: 100%;
     left: 0;
     top: 0;
-    background: url("/static/img/scene/scene1/bg2.png") left top/contain repeat;
+    background: url("/static/img/scene/scene1/bg2.png") left top/contain repeat, linear-gradient(to top, #EEB04F 0%, #C75526 50%, #B6280C 100%);
     img {
       position: absolute;
       width: 100%;
       bottom: 0;
-      z-index: -1;
-      &.bg1 {
-        height: 100%;
+      &.star {
+        //height: 100%;
       }
       &.ground {
         height: @ground-height;
@@ -129,10 +132,34 @@
       left: @scene-width;
       &.move {
         animation: move2 @duration infinite normal linear;
+        &.level2 {
+          animation-duration: @duration2;
+        }
+        &.level3 {
+          animation-duration: @duration3;
+        }
+        &.level4 {
+          animation-duration: @duration4;
+        }
+        &.level5 {
+          animation-duration: @duration5;
+        }
       }
     }
     &.move {
       animation: move1 @duration infinite normal linear;
+      &.level2 {
+        animation-duration: @duration2;
+      }
+      &.level3 {
+        animation-duration: @duration3;
+      }
+      &.level4 {
+        animation-duration: @duration4;
+      }
+      &.level5 {
+        animation-duration: @duration5;
+      }
     }
     &.pause {
       animation-play-state: paused !important;
