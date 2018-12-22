@@ -8,7 +8,7 @@ import {random, collide, getAward} from "../common";
 
 const MAX_PLAYTIMES = 5; //5次
 const SCENE_WIDTH = 12164 / 2;//2X.img
-const SCENE_DURATION = 15000;//15s
+let SCENE_DURATION = 15000;//15s
 const JUMP_TIME = 2;//can jump 2 times
 const SAFE_TIME = 2;//无敌
 const JUMP_DURATION = 300;//350ms
@@ -72,6 +72,7 @@ class Scene {
         // this.$bg1.removeClass("level1 level2 level3 level4 level5");
         // this.$bg1.addClass("level" + n);
         // this.$bg2.addClass("level" + n);
+        SCENE_DURATION = (15 - (n - 1) * 2) * 1000;
         STONE_MIN = JUMP_DURATION * (8 - (n - 1));
         STONE_MAX = JUMP_DURATION * (16 - 2 * (n - 1));
     }
