@@ -3,6 +3,8 @@ import pageScene1 from "page/scene/index"
 import pageScene2 from "page/scene2/index"
 import homePage from "page/home/index"
 import "./index.less";
+import {postInfo} from "../common";
+
 import provinceJSON from "config/province.json"
 
 class Info {
@@ -59,10 +61,18 @@ class Info {
         let city = this.$city.val();
         let address = this.$address.val();
         if (name && tel && province && city && address) {
-            this.hidePage();
-            homePage.togglePage(this.curPage);
-            pageScene1.hidePage();
-            pageScene2.hidePage();
+            if (/^\d*$/g.test(tel)) {
+                postInfo(name, tel, province, city, address).then((result) => {
+                    this.hidePage();
+                    homePage.togglePage(this.curPage);
+                    pageScene1.hidePage();
+                    pageScene2.hidePage();
+                })
+            } else {
+                alert("请输入正确格式的手机号码")
+            }
+
+
         } else {
             alert("请填写所有字段!")
         }

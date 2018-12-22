@@ -30,11 +30,36 @@ function getAward() {
             resolve(result.state)
         }).catch(reject)
     })
+}
+
+function postInfo(name, phone, province, city, address) {
+    return new Promise((resolve, reject) => {
+        let settings = {
+            "url": "http://47.98.149.216/save",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            "data": {
+                name,
+                phone,
+                province,
+                city,
+                address,
+                sign: md5(`name=${name}phone=${phone}province=${province}city=${city}address=${address}key=dfyfsdfsdf23423jGFFTt6`)
+            }
+        };
+        $.ajax(settings).done((result) => {
+            resolve(result)
+        }).catch(reject)
+    })
 
 }
 
 export {
     random,
     collide,
-    getAward
+    getAward,
+    postInfo
 }
