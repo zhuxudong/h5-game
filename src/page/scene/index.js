@@ -157,7 +157,7 @@ class Scene {
         this.bgLeft = 0;
         this.$bg1.css("left", 0);
         this.$bg2.css("left", SCENE_WIDTH);
-        cancelAnimationFrame(this.bgTimeout);
+        clearInterval(this.bgTimeout);
     }
 
     start() {
@@ -169,8 +169,8 @@ class Scene {
         setTimeout(this.showStone.bind(this), random(1000, 5000));
         clearTimeout(this.showGiftTimeout);
         setTimeout(this.showGift.bind(this), random(1000, 5000));
-        cancelAnimationFrame(this.bgTimeout);
-        this.moveBg();
+        clearInterval(this.bgTimeout);
+        this.bgTimeout = setInterval(this.moveBg.bind(this), 16)
     }
 
     moveBg() {
@@ -180,7 +180,6 @@ class Scene {
         }
         this.$bg1.css("left", -this.bgLeft)
         this.$bg2.css("left", SCENE_WIDTH - this.bgLeft)
-        this.bgTimeout = requestAnimationFrame(this.moveBg.bind(this))
     }
 
     showScore(score) {
@@ -444,7 +443,7 @@ class Scene {
         clearTimeout(this.clearStoneTimeout);
         clearTimeout(this.showGiftTimeout);
         clearTimeout(this.clearGiftTimeout);
-        cancelAnimationFrame(this.bgTimeout);
+        clearInterval(this.bgTimeout);
         this.setRole("die");
         this.showResult();
     }
