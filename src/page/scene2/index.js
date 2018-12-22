@@ -8,10 +8,10 @@ import {random, collide, getAward} from "../common";
 
 const MAX_PLAYTIMES = 5; //5次
 const SCENE_WIDTH = 12164 / 2;//2X.img
-let SCENE_DURATION = 15000;//15s
+// let SCENE_DURATION = 15000;//15s
 const JUMP_TIME = 2;//can jump 2 times
 const SAFE_TIME = 2;//无敌
-const JUMP_DURATION = 300;//350ms
+let JUMP_DURATION = 300;//350ms
 const JUMP_HEIGHT = innerWidth > innerHeight ?
     (innerHeight < 423 ? (innerHeight - 123) / 2 : 150) :
     (innerWidth < 423 ? (innerWidth - 123) / 2 : 150);
@@ -20,7 +20,8 @@ let STONE_MIN = JUMP_DURATION * 8;//stone appear
 let STONE_MAX = JUMP_DURATION * 16;
 const STAR_PERCENT = .05;// star appear
 const GIFT_MIN = JUMP_DURATION * 4; //tree appear
-const GIFT_MAX = JUMP_DURATION * 12;
+const GIFT_MAX = JUMP_DURATION * 24;
+
 //难度递增分数
 const LEVEL_DIF = 30;
 
@@ -62,6 +63,8 @@ class Scene {
     safeTimeout = null;
     over30 = false; //bigger only once
     bgTimeout = null;//css无法控制
+    bgLeft = 0;
+    level = 1;
 
     constructor() {
         $(".wrapper").append(this.$page);
@@ -69,11 +72,9 @@ class Scene {
     }
 
     toggleLevel(n) {
-        // this.$bg1.removeClass("level1 level2 level3 level4 level5");
-        // this.$bg1.removeClass("level1 level2 level3 level4 level5");
-        // this.$bg1.addClass("level" + n);
-        // this.$bg2.addClass("level" + n);
-        SCENE_DURATION = (15 - (n - 1) * 2) * 1000;
+        n = Math.min(n, 6);
+        this.level = n;
+        JUMP_DURATION = 300 - (n - 1) * 10;
         STONE_MIN = JUMP_DURATION * (8 - (n - 1));
         STONE_MAX = JUMP_DURATION * (16 - 2 * (n - 1));
     }
@@ -145,25 +146,41 @@ class Scene {
         this.over30 = false;
         this.die = false;
         showTip && this.$firstTip.fadeIn();
-        this.$bg1.removeClass("move pause");
-        this.$bg2.removeClass("move pause");
+        // this.$bg1.removeClass("move pause");
+        // this.$bg2.removeClass("move pause");
         this.setRole("normal");
         this.setRole("move");
         clearTimeout(this.showStoneTimeout);
         clearTimeout(this.showGiftTimeout);
         this.cancelDetectCollide();
         this.$page.find(".gift-container,.stone").remove();
+        this.bgLeft = 0;
+        this.$bg1.css("left", 0);
+        this.$bg2.css("left", SCENE_WIDTH);
+        cancelAnimationFrame(this.bgTimeout);
     }
 
     start() {
-        this.$bg1.addClass("move");
-        this.$bg2.addClass("move");
+        // this.$bg1.addClass("move");
+        // this.$bg2.addClass("move");
         this.cancelDetectCollide();
         this.startDetectCollide();
         clearTimeout(this.showStoneTimeout);
         setTimeout(this.showStone.bind(this), random(1000, 5000));
         clearTimeout(this.showGiftTimeout);
         setTimeout(this.showGift.bind(this), random(1000, 5000));
+        cancelAnimationFrame(this.bgTimeout);
+        this.moveBg();
+    }
+
+    moveBg() {
+        this.bgLeft += 6 + this.level * 2;
+        if (this.bgLeft > SCENE_WIDTH) {
+            this.bgLeft = 0;
+        }
+        this.$bg1.css("left", -this.bgLeft)
+        this.$bg2.css("left", SCENE_WIDTH - this.bgLeft)
+        this.bgTimeout = requestAnimationFrame(this.moveBg.bind(this))
     }
 
     showScore(score) {
@@ -268,10 +285,18 @@ class Scene {
             $stone.css("left", -(wrapperPage.status === "normal" ? position1.left : position1.top) + width);
         }
         this.$bg1.append($stone);
+
         //clear when die
-        this.clearStoneTimeout = setTimeout(() => {
-            $stone.remove();
-        }, (width * 2 + 300) / SCENE_WIDTH * SCENE_DURATION)
+        function clear() {
+            let rect = $stone[0].getBoundingClientRect();
+            if (rect.left < -200 || rect.top < -200) {
+                $stone.remove();
+            } else {
+                this.clearStoneTimeout = setTimeout(clear.bind(this), 1000);
+            }
+        }
+
+        this.clearStoneTimeout = setTimeout(clear.bind(this), 1000);
         this.showStoneTimeout = setTimeout(this.showStone.bind(this), random(STONE_MIN, STONE_MAX))
     }
 
@@ -309,10 +334,18 @@ class Scene {
             .append($score)
 
         this.$bg1.append($giftContainer);
+
         //clear when die
-        this.clearGiftTimeout = setTimeout(() => {
-            $giftContainer.remove();
-        }, (width * 2 + 500) / SCENE_WIDTH * SCENE_DURATION)
+        function clear() {
+            let rect = $giftContainer[0].getBoundingClientRect();
+            if (rect.left < -500 || rect.top < -500) {
+                $giftContainer.remove();
+            } else {
+                this.clearGiftTimeout = setTimeout(clear.bind(this), 1000);
+            }
+        }
+
+        this.clearGiftTimeout = setTimeout(clear.bind(this), 1000)
         this.showGiftTimeout = setTimeout(this.showGift.bind(this), random(GIFT_MIN, GIFT_MAX));
     }
 
@@ -405,13 +438,14 @@ class Scene {
 
     onDie() {
         this.die = true;
-        this.$bg1.addClass("pause");
-        this.$bg2.addClass("pause");
+        // this.$bg1.addClass("pause");
+        // this.$bg2.addClass("pause");
         this.cancelDetectCollide();
         clearTimeout(this.showStoneTimeout);
         clearTimeout(this.clearStoneTimeout);
         clearTimeout(this.showGiftTimeout);
         clearTimeout(this.clearGiftTimeout);
+        cancelAnimationFrame(this.bgTimeout);
         this.setRole("die");
         this.showResult();
     }
