@@ -20,6 +20,7 @@ class PageHome {
     $bg1 = this.$page.find(".ground-container.page1");
     $bg2 = this.$page.find(".ground-container.page2");
     $resultShare = this.$page.find(".share-container");
+    $shareIcon = this.$page.find(".share-container .share-guide");
     curPage = 1;
     $music1 = this.$page.find("#music1")[0];
     $music2 = this.$page.find("#music2")[0];
@@ -34,6 +35,20 @@ class PageHome {
     initEvents() {
         this.$share.on("touchstart", () => {
             this.$resultShare.stop().fadeToggle();
+            if (innerWidth > innerHeight) {
+                this.$shareIcon.addClass("reverse")
+            } else {
+                this.$shareIcon.removeClass("reverse")
+            }
+        })
+        this.$page.on("resize", () => {
+            setTimeout(() => {
+                if (innerWidth > innerHeight) {
+                    this.$shareIcon.addClass("reverse")
+                } else {
+                    this.$shareIcon.removeClass("reverse")
+                }
+            }, 300)
         })
         this.$resultShare.on("touchend", () => {
             this.$resultShare.stop().fadeToggle();

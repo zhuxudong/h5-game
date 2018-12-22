@@ -35,25 +35,31 @@ class PageWrapper {
     }
 
     forcePortrait() {
-        if (window.innerWidth > window.innerHeight) {
-            that.reverse();
-        } else {
-            that.normal();
-        }
-        window.removeEventListener("resize", this.forcePortrait);
-        window.removeEventListener("resize", this.forceLandscape);
-        window.addEventListener("resize", this.forcePortrait);
+        setTimeout(() => {
+            if (window.innerWidth > window.innerHeight) {
+                that.reverse();
+            } else {
+                that.normal();
+            }
+            window.removeEventListener("resize", this.forcePortrait);
+            window.removeEventListener("resize", this.forceLandscape);
+            window.addEventListener("resize", this.forcePortrait);
+            window.onorientationchange = this.forcePortrait;
+        }, 300)
     }
 
     forceLandscape() {
-        if (window.innerWidth >= window.innerHeight) {
-            that.normal();
-        } else {
-            that.reverse();
-        }
-        window.removeEventListener("resize", this.forcePortrait)
-        window.removeEventListener("resize", this.forceLandscape)
-        window.addEventListener("resize", this.forceLandscape)
+        setTimeout(() => {
+            if (window.innerWidth < window.innerHeight) {
+                that.reverse();
+            } else {
+                that.normal();
+            }
+            window.removeEventListener("resize", this.forcePortrait);
+            window.removeEventListener("resize", this.forceLandscape);
+            window.addEventListener("resize", this.forceLandscape);
+            window.onorientationchange = this.forceLandscape;
+        }, 300)
     }
 }
 

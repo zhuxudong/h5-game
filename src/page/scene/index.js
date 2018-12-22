@@ -83,6 +83,20 @@ class Scene {
         })
         this.$btnShare.on("touchend", () => {
             this.$resultShare.stop().fadeIn();
+            if (innerWidth < innerHeight) {
+                this.$resultShare.addClass("reverse")
+            } else {
+                this.$resultShare.removeClass("reverse")
+            }
+        })
+        this.$page.on("resize", () => {
+            setTimeout(() => {
+                if (innerWidth < innerHeight) {
+                    this.$resultShare.addClass("reverse")
+                } else {
+                    this.$resultShare.removeClass("reverse")
+                }
+            }, 300)
         })
         this.$btnAgain.on("touchend", () => {
             this.hidePage();
