@@ -170,7 +170,7 @@ class Scene {
         clearTimeout(this.showGiftTimeout);
         setTimeout(this.showGift.bind(this), random(1000, 5000));
         clearInterval(this.bgTimeout);
-        this.bgTimeout = setInterval(this.moveBg.bind(this), 20)
+        this.bgTimeout = setInterval(this.moveBg.bind(this), 16)
     }
 
     moveBg() {
