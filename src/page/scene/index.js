@@ -7,7 +7,7 @@ import storage from "config/storage";
 import {random, collide, getAward} from "../common";
 
 const MAX_PLAYTIMES = 5; //5次
-const SCENE_WIDTH = 1521;//2X.img
+const SCENE_WIDTH = 1000;//2X.img
 // let SCENE_DURATION = 15000;//15s
 const JUMP_TIME = 2;//can jump 2 times
 const SAFE_TIME = 2;//无敌
@@ -158,7 +158,7 @@ class Scene {
         this.$page.find(".gift-container,.stone").remove();
         this.bgLeft = 0;
         this.$bg.css("left", 0);
-        clearInterval(this.bgTimeout);
+        cancelAnimationFrame(this.bgTimeout);
     }
 
     start() {
@@ -170,8 +170,8 @@ class Scene {
         setTimeout(this.showStone.bind(this), random(1000, 5000));
         clearTimeout(this.showGiftTimeout);
         setTimeout(this.showGift.bind(this), random(1000, 5000));
-        clearInterval(this.bgTimeout);
-        this.bgTimeout = setInterval(this.moveBg.bind(this), 16)
+        cancelAnimationFrame(this.bgTimeout);
+        this.bgTimeout = requestAnimationFrame(this.moveBg.bind(this))
     }
 
     moveBg() {
@@ -188,6 +188,7 @@ class Scene {
             })
         }
         this.$bg.css("left", -this.bgLeft);
+        this.bgTimeout = requestAnimationFrame(this.moveBg.bind(this))
     }
 
     showScore(score) {
@@ -442,7 +443,7 @@ class Scene {
         clearTimeout(this.clearStoneTimeout);
         clearTimeout(this.showGiftTimeout);
         clearTimeout(this.clearGiftTimeout);
-        clearInterval(this.bgTimeout);
+        cancelAnimationFrame(this.bgTimeout);
         this.setRole("die");
         this.showResult();
     }
