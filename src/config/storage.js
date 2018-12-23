@@ -1,4 +1,5 @@
 export default {
     historyScore: "historyScore",
-    playTimes:"playTimes"
+    playTimes: "playTimes",
+    submited: "submited"
 }

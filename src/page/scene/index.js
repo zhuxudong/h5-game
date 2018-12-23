@@ -113,14 +113,17 @@ class Scene {
             }, 300)
         })
         this.$btnAgain.on("touchend", () => {
-            this.hidePage();
-            homePage.togglePage(1);
+            // this.hidePage();
+            // homePage.togglePage(1);
+            this.hideResult();
+            this.reset();
         })
 
         this.$resultPass.on("touchend", () => {
             this.hideResult();
             getAward().then((yes) => {
-                if (!yes) {
+                let submited = localStorage.getItem(storage.submited);
+                if (!yes || submited) {
                     this.$result.stop().fadeIn();
                     this.$resultNo.stop().fadeIn();
                 } else {

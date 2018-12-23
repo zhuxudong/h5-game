@@ -4,7 +4,7 @@ import pageScene2 from "page/scene2/index"
 import homePage from "page/home/index"
 import "./index.less";
 import {postInfo} from "../common";
-
+import storage from "config/storage";
 import provinceJSON from "config/province.json"
 
 class Info {
@@ -64,15 +64,15 @@ class Info {
             if (/^\d*$/g.test(tel)) {
                 postInfo(name, tel, province, city, address).then((result) => {
                     this.hidePage();
-                    homePage.togglePage(this.curPage);
+                    alert("信息提交成功！");
                     pageScene1.hidePage();
                     pageScene2.hidePage();
+                    homePage.togglePage(this.curPage);
+                    localStorage.setItem(storage.submited, "true");
                 })
             } else {
                 alert("请输入正确格式的手机号码")
             }
-
-
         } else {
             alert("请填写所有字段!")
         }
