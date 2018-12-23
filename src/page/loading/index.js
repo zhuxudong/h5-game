@@ -34,7 +34,7 @@ class Loading {
             if (completeAmount === amount) {
                 this.setPercent(100);
                 setTimeout(() => {
-                    // this.hidePage();
+                    this.hidePage();
                 }, 500)
             } else {
                 this.setPercent(completeAmount / amount * 100);

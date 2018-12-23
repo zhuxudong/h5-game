@@ -1,5 +1,5 @@
-@ground-height: 46px;
-@scene-width: 12164px /2;
+@ground-height: 46px*2;
+@scene-width: 2539px;
 @duration: 15s;
 @duration2: 13s;
 @duration3: 11s;
@@ -44,26 +44,18 @@
     z-index: 1000;
     background: url("/static/img/scene/jump.png") center center /contain no-repeat;
   }
-  .bg {
+  .bg-container {
     position: absolute;
-    width: @scene-width;
+    width: @scene-width*2;
     height: 100%;
     left: 0;
     top: 0;
-    background: linear-gradient(to top, #EEB04F 0%, #C75526 50%, #B6280C 100%);
     will-change: transform, left;
+    background: linear-gradient(to top, #37A4BD 0%, #143B4D 80%, #0D2937 100%);
     img {
       position: absolute;
       width: 100%;
       bottom: 0;
-      &.star {
-        bottom: auto;
-        top: 0;
-      }
-      &.ground {
-        height: @ground-height;
-        z-index: 2;
-      }
     }
     .gift-container {
       position: absolute;
@@ -71,7 +63,7 @@
       max-height: 295px;
       width: 325px;
       bottom: @ground-height - 20px;
-      z-index: 1;
+      z-index: 3;
       .tree {
         position: absolute;
         left: 0;
@@ -113,63 +105,28 @@
       bottom: @ground-height;
       height: 48px;
       width: auto;
-      z-index: 2;
+      z-index: 4;
     }
-    //@keyframes move1 {
-    //    //  0% {
-    //    //    left: 0;
-    //    //  }
-    //    //  100% {
-    //    //    left: -@scene-width;
-    //    //  }
-    //    //}
-    //    //@keyframes move2 {
-    //    //  0% {
-    //    //    left: @scene-width;
-    //    //  }
-    //    //  100% {
-    //    //    left: 0;
-    //    //  }
-    //    //}
+  }
+  .bg {
+    position: absolute;
+    width: @scene-width;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to top, #EEB04F 0%, #C75526 50%, #B6280C 100%);
+    will-change: transform, left;
+    img {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+    }
     &.bg1 {
       z-index: 2;
     }
     &.bg2 {
       left: @scene-width;
-      //&.move {
-      //  animation: move2 @duration infinite normal linear;
-      //  &.level2 {
-      //    animation-duration: @duration2;
-      //  }
-      //  &.level3 {
-      //    animation-duration: @duration3;
-      //  }
-      //  &.level4 {
-      //    animation-duration: @duration4;
-      //  }
-      //  &.level5 {
-      //    animation-duration: @duration5;
-      //  }
-      //}
     }
-    //&.move {
-    //  animation: move1 @duration infinite normal linear;
-    //  &.level2 {
-    //    animation-duration: @duration2;
-    //  }
-    //  &.level3 {
-    //    animation-duration: @duration3;
-    //  }
-    //  &.level4 {
-    //    animation-duration: @duration4;
-    //  }
-    //  &.level5 {
-    //    animation-duration: @duration5;
-    //  }
-    //}
-    //&.pause {
-    //  animation-play-state: paused !important;
-    //}
   }
   .role {
     position: absolute;
