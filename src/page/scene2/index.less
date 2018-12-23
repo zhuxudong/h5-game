@@ -1,5 +1,5 @@
-@ground-height: 46px*2;
-@scene-width: 2539px;
+@ground-height: 46px;
+@scene-width: 1200px;
 @duration: 15s;
 @duration2: 13s;
 @duration3: 11s;
@@ -44,14 +44,12 @@
     z-index: 1000;
     background: url("/static/img/scene/jump.png") center center /contain no-repeat;
   }
-  .bg-container {
+  .scene-container {
     position: absolute;
-    width: @scene-width*2;
+    width: 100%;
     height: 100%;
     left: 0;
     top: 0;
-    will-change: transform, left;
-    background: linear-gradient(to top, #37A4BD 0%, #143B4D 80%, #0D2937 100%);
     img {
       position: absolute;
       width: 100%;
@@ -107,6 +105,15 @@
       width: auto;
       z-index: 4;
     }
+  }
+  .bg-container {
+    position: absolute;
+    width: @scene-width*2;
+    height: 100%;
+    left: 0;
+    top: 0;
+    will-change: transform, left;
+    background: linear-gradient(to top, #37A4BD 0%, #143B4D 80%, #0D2937 100%);
   }
   .bg {
     position: absolute;

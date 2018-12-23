@@ -7,11 +7,11 @@ import storage from "config/storage";
 import {random, collide, getAward} from "../common";
 
 const MAX_PLAYTIMES = 5; //5次
-const SCENE_WIDTH = 2539;//2X.img
+const SCENE_WIDTH = 1200;//2X.img
 // let SCENE_DURATION = 15000;//15s
 const JUMP_TIME = 2;//can jump 2 times
 const SAFE_TIME = 2;//无敌
-let JUMP_DURATION = 300;//350ms
+let JUMP_DURATION = 280;//350ms
 const JUMP_HEIGHT = innerWidth > innerHeight ?
     (innerHeight < 423 ? (innerHeight - 123) / 2 : 150) :
     (innerWidth < 423 ? (innerWidth - 123) / 2 : 150);
@@ -49,6 +49,7 @@ class Scene {
     $scoreResultHigh = this.$result.find(".score-result-high");
     curScore = 0;
     die = false;
+    $scene = this.$page.find(".scene-container");
     $bg = this.$page.find(".bg-container");
     $jump = this.$page.find(".jump");
     $role = this.$page.find(".role");
@@ -73,7 +74,7 @@ class Scene {
     toggleLevel(n) {
         n = Math.min(n, 6);
         this.level = n;
-        JUMP_DURATION = 300 - (n - 1) * 10;
+        JUMP_DURATION = 280 - (n - 1) * 10;
         STONE_MIN = JUMP_DURATION * (8 - (n - 1));
         STONE_MAX = JUMP_DURATION * (16 - 2 * (n - 1));
     }
@@ -114,6 +115,8 @@ class Scene {
         this.$btnAgain.on("touchend", () => {
             // this.hidePage();
             // homePage.togglePage(2);
+            this.safeStatus = true;
+            this.die = false;
             this.hideResult();
             this.reset();
         })
@@ -158,36 +161,35 @@ class Scene {
         this.$page.find(".gift-container,.stone").remove();
         this.bgLeft = 0;
         this.$bg.css("left", 0);
-        clearInterval(this.bgTimeout);
+        cancelAnimationFrame(this.bgTimeout);
     }
 
     start() {
-        // this.$bg1.addClass("move");
-        // this.$bg2.addClass("move");
         this.cancelDetectCollide();
         this.startDetectCollide();
         clearTimeout(this.showStoneTimeout);
         setTimeout(this.showStone.bind(this), random(1000, 5000));
         clearTimeout(this.showGiftTimeout);
         setTimeout(this.showGift.bind(this), random(1000, 5000));
-        clearInterval(this.bgTimeout);
-        this.bgTimeout = setInterval(this.moveBg.bind(this), 16)
+        cancelAnimationFrame(this.bgTimeout);
+        this.bgTimeout = requestAnimationFrame(this.moveBg.bind(this));
+        this.setRole("normal");
+        this.setRole("move");
     }
 
     moveBg() {
-        this.bgLeft += 6 + this.level * 2;
-        if (this.bgLeft > SCENE_WIDTH) {
+        let speed = 6 + this.level * 2;
+        this.bgLeft += speed;
+        this.$page.find(".stone,.gift-container").each((i, dom) => {
+            let $dom = $(dom);
+            let left = parseFloat($dom.css("left"));
+            $dom.css("left", left - speed);
+        })
+        if (this.bgLeft >= SCENE_WIDTH) {
             this.bgLeft = 0;
-            this.$page.find(".stone,.gift-container").each((i, dom) => {
-                let $dom = $(dom);
-                let left = parseFloat($dom.css("left"));
-                if (left > SCENE_WIDTH) {
-                    $dom.css("left", left - SCENE_WIDTH);
-                }
-
-            })
         }
         this.$bg.css("left", -this.bgLeft);
+        this.bgTimeout = requestAnimationFrame(this.moveBg.bind(this))
     }
 
     showScore(score) {
@@ -281,30 +283,28 @@ class Scene {
     }
 
     showStone() {
-        let position1 = this.$bg.position();
         let stoneIndex = Math.random() < .5 ? 1 : 2;
         let $stone = $(`<img class="stone" src="/static/img/scene/scene1/stone${stoneIndex}.png">`);
         let width = innerWidth >= innerHeight ? innerWidth : innerHeight;
-        $stone.css("left", -(wrapperPage.status === "normal" ? position1.left : position1.top) + width);
+        $stone.css("left", width);
 
-        this.$bg.append($stone);
+        this.$scene.append($stone);
 
         //clear when die
         function clear() {
             let rect = $stone[0].getBoundingClientRect();
-            if (rect.left < -143 || rect.top < -143 || rect.left > width || rect.top > width) {
+            if (rect.left < -500 || rect.top < -500) {
                 $stone.remove();
             } else {
-                this.clearStoneTimeout = setTimeout(clear.bind(this), 50);
+                this.clearStoneTimeout = setTimeout(clear.bind(this), 1000);
             }
         }
 
-        this.clearStoneTimeout = setTimeout(clear.bind(this), 50);
+        this.clearStoneTimeout = setTimeout(clear.bind(this), 1000);
         this.showStoneTimeout = setTimeout(this.showStone.bind(this), random(STONE_MIN, STONE_MAX))
     }
 
     showGift() {
-        let position1 = this.$bg.position();
         let isStar = Math.random() <= STAR_PERCENT;
         let giftIndex = parseInt(Math.random() * 5);
         let treeIndex = Math.random() < .5 ? 1 : 2;
@@ -315,7 +315,7 @@ class Scene {
         let $tree = $(`<img class="tree" src="/static/img/scene/scene2/tree${treeIndex}.png">`)
         let $score = $(`<img class="${isStar ? 'score30' : 'score5'}" src="/static/img/scene/scene1/${scoreImg}">`)
         let width = innerWidth >= innerHeight ? innerWidth : innerHeight;
-        $giftContainer.css("left", -(wrapperPage.status === "normal" ? position1.left : position1.top) + width);
+        $giftContainer.css("left", width);
         let bottom = random(50, 95) + "%";
         let left = random(0, 60) + "%";
         $gift.css({
@@ -331,26 +331,26 @@ class Scene {
             .append($gift)
             .append($score)
 
-        this.$bg.append($giftContainer);
+        this.$scene.append($giftContainer);
 
         //clear when die
         function clear() {
             let rect = $giftContainer[0].getBoundingClientRect();
-            if (rect.left < -350 || rect.top < -350 || rect.left > width || rect.top > width) {
+            if (rect.left < -500 || rect.top < -500) {
                 $giftContainer.remove();
             } else {
-                this.clearGiftTimeout = setTimeout(clear.bind(this), 50);
+                this.clearGiftTimeout = setTimeout(clear.bind(this), 1000);
             }
         }
 
-        this.clearGiftTimeout = setTimeout(clear.bind(this), 50)
+        this.clearGiftTimeout = setTimeout(clear.bind(this), 1000)
         this.showGiftTimeout = setTimeout(this.showGift.bind(this), random(GIFT_MIN, GIFT_MAX));
     }
 
     startDetectCollide() {
         let die = false;
         //stone
-        this.$bg.find(".stone").each((i, dom) => {
+        this.$scene.find(".stone").each((i, dom) => {
             if (collide(this.$role, $(dom))) {
                 if (this.safeStatus) {
                     this.setRole("normal");
@@ -368,7 +368,7 @@ class Scene {
         })
         if (die)
             return;
-        this.$bg.find(".star,.gift").each((i, dom) => {
+        this.$scene.find(".star,.gift").each((i, dom) => {
             let $dom = $(dom);
             if (collide(this.$role, $dom, 0, 0)) {
                 let score = $dom.data("score");
@@ -443,7 +443,7 @@ class Scene {
         clearTimeout(this.clearStoneTimeout);
         clearTimeout(this.showGiftTimeout);
         clearTimeout(this.clearGiftTimeout);
-        clearInterval(this.bgTimeout);
+        cancelAnimationFrame(this.bgTimeout);
         this.setRole("die");
         this.showResult();
     }
