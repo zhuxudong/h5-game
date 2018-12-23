@@ -62,6 +62,8 @@
       width: 200px;
       bottom: @ground-height;
       z-index: 3;
+      will-change: left;
+      transform: translate3d(0, 0, 0);
       .tree {
         position: absolute;
         left: 0;
@@ -104,6 +106,8 @@
       height: 48px;
       width: auto;
       z-index: 4;
+      will-change: left;
+      transform: translate3d(0, 0, 0);
     }
   }
   .bg-container {
@@ -146,6 +150,7 @@
     transition: transform .3s;
     transform: scale(.6);
     z-index: 100;
+    will-change: transform, margin-bottom;
     @keyframes shrink {
       0% {
         opacity: 0;

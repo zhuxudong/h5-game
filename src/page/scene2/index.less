@@ -62,6 +62,8 @@
       width: 325px;
       bottom: @ground-height - 20px;
       z-index: 3;
+      will-change: left;
+      transform: translate3d(0, 0, 0);
       .tree {
         position: absolute;
         left: 0;
@@ -104,6 +106,8 @@
       height: 48px;
       width: auto;
       z-index: 4;
+      will-change: left;
+      transform: translate3d(0, 0, 0);
     }
   }
   .bg-container {
@@ -112,8 +116,9 @@
     height: 100%;
     left: 0;
     top: 0;
-    will-change: transform, left;
     background: linear-gradient(to top, #37A4BD 0%, #143B4D 80%, #0D2937 100%);
+    will-change: left;
+    transform: translate3d(0, 0, 0);
   }
   .bg {
     position: absolute;
@@ -144,6 +149,7 @@
     transition: transform .3s;
     transform: scale(.65);
     z-index: 100;
+    will-change: transform, margin-bottom;
     @keyframes shrink {
       0% {
         opacity: 0;

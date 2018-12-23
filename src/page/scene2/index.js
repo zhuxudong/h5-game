@@ -58,7 +58,6 @@ class Scene {
     clearStoneTimeout = null;
     showGiftTimeout = null;
     clearGiftTimeout = null;
-    detectTimeout = null; //detect
     safeStatus = false;
     safeTimeout = null;
     over30 = false; //bigger only once
@@ -118,7 +117,7 @@ class Scene {
             this.safeStatus = true;
             this.die = false;
             this.hideResult();
-            this.reset();
+            this.start();
         })
 
         this.$resultPass.on("touchend", () => {
@@ -157,7 +156,6 @@ class Scene {
         this.setRole("move");
         clearTimeout(this.showStoneTimeout);
         clearTimeout(this.showGiftTimeout);
-        this.cancelDetectCollide();
         this.$page.find(".gift-container,.stone").remove();
         this.bgLeft = 0;
         this.$bg.css("left", 0);
@@ -165,8 +163,6 @@ class Scene {
     }
 
     start() {
-        this.cancelDetectCollide();
-        this.startDetectCollide();
         clearTimeout(this.showStoneTimeout);
         setTimeout(this.showStone.bind(this), random(1000, 5000));
         clearTimeout(this.showGiftTimeout);
@@ -189,6 +185,41 @@ class Scene {
             this.bgLeft = 0;
         }
         this.$bg.css("left", -this.bgLeft);
+        let die = false;
+        //stone
+        this.$scene.find(".stone").each((i, dom) => {
+            if (collide(this.$role, $(dom))) {
+                if (this.safeStatus) {
+                    this.setRole("normal");
+                    this.$role.addClass("shrink");
+                    clearTimeout(this.safeTimeout);
+                    this.safeTimeout = setTimeout(() => {
+                        this.safeStatus = false;
+                        this.$role.removeClass("shrink");
+                    }, SAFE_TIME * 1000)
+                } else {
+                    this.onDie();
+                    die = true;
+                }
+            }
+        })
+        if (die)
+            return;
+        this.$scene.find(".star,.gift").each((i, dom) => {
+            let $dom = $(dom);
+            if (collide(this.$role, $dom, 0, 0)) {
+                let score = $dom.data("score");
+                let $score = $dom.data("$score");
+                $dom.data("score", 0);
+                if (score) {
+                    $dom.fadeOut();
+                    this.addScore(score);
+                    $score.fadeIn(() => {
+                        $score.fadeOut();
+                    }).addClass("rise")
+                }
+            }
+        })
         this.bgTimeout = requestAnimationFrame(this.moveBg.bind(this))
     }
 
@@ -205,7 +236,11 @@ class Scene {
                 this.setRole("big");
                 this.over30 = true;
             }
-            if (score >= 30 + LEVEL_DIF * 3) {
+            if (score >= 30 + LEVEL_DIF * 7) {
+                this.toggleLevel(7)
+            } else if (score >= 30 + LEVEL_DIF * 5) {
+                this.toggleLevel(6)
+            } else if (score >= 30 + LEVEL_DIF * 3) {
                 this.toggleLevel(5)
             } else if (score >= 30 + LEVEL_DIF * 2) {
                 this.toggleLevel(4)
@@ -347,48 +382,7 @@ class Scene {
         this.showGiftTimeout = setTimeout(this.showGift.bind(this), random(GIFT_MIN, GIFT_MAX));
     }
 
-    startDetectCollide() {
-        let die = false;
-        //stone
-        this.$scene.find(".stone").each((i, dom) => {
-            if (collide(this.$role, $(dom))) {
-                if (this.safeStatus) {
-                    this.setRole("normal");
-                    this.$role.addClass("shrink");
-                    clearTimeout(this.safeTimeout);
-                    this.safeTimeout = setTimeout(() => {
-                        this.safeStatus = false;
-                        this.$role.removeClass("shrink");
-                    }, SAFE_TIME * 1000)
-                } else {
-                    this.onDie();
-                    die = true;
-                }
-            }
-        })
-        if (die)
-            return;
-        this.$scene.find(".star,.gift").each((i, dom) => {
-            let $dom = $(dom);
-            if (collide(this.$role, $dom, 0, 0)) {
-                let score = $dom.data("score");
-                let $score = $dom.data("$score");
-                $dom.data("score", 0);
-                if (score) {
-                    $dom.fadeOut();
-                    this.addScore(score);
-                    $score.fadeIn(() => {
-                        $score.fadeOut();
-                    }).addClass("rise")
-                }
-            }
-        })
-        this.detectTimeout = requestAnimationFrame(this.startDetectCollide.bind(this));
-    }
 
-    cancelDetectCollide() {
-        cancelAnimationFrame(this.detectTimeout);
-    }
 
     hideResult() {
         this.$result.stop().fadeOut();
@@ -438,7 +432,6 @@ class Scene {
         this.die = true;
         // this.$bg1.addClass("pause");
         // this.$bg2.addClass("pause");
-        this.cancelDetectCollide();
         clearTimeout(this.showStoneTimeout);
         clearTimeout(this.clearStoneTimeout);
         clearTimeout(this.showGiftTimeout);
