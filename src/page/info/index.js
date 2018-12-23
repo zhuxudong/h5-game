@@ -1,6 +1,7 @@
 import page from "./index.html"
 import pageScene1 from "page/scene/index"
 import pageScene2 from "page/scene2/index"
+import pageWrapper from "page/wrapper/index"
 import homePage from "page/home/index"
 import "./index.less";
 import {postInfo} from "../common";
@@ -81,6 +82,7 @@ class Info {
     showPage(curPage) {
         this.curPage = curPage;
         this.$page.stop().fadeIn();
+        pageWrapper.forceOriginal();
     }
 
     hidePage() {

@@ -15,6 +15,7 @@ class Loading {
 
     //0-100
     setPercent(num) {
+        num = num.toFixed(0);
         this.$icon.css("marginLeft", `${num}%`);
         this.$bar.css("width", `${num}%`);
         this.$progress.css("marginLeft", `${num}%`);
@@ -30,7 +31,6 @@ class Loading {
                     completeAmount++;
                 }
             })
-            console.log(completeAmount)
             if (completeAmount === amount) {
                 this.setPercent(100);
                 setTimeout(() => {

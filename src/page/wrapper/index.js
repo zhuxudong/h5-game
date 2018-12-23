@@ -36,7 +36,7 @@ class PageWrapper {
 
     forcePortrait() {
         setTimeout(() => {
-            if (window.innerWidth > window.innerHeight) {
+            if ((window.innerWidth || window.outerWidth || screen.width) > (window.innerHeight || window.outerHeight || screen.height)) {
                 that.reverse();
             } else {
                 that.normal();
@@ -50,7 +50,7 @@ class PageWrapper {
 
     forceLandscape() {
         setTimeout(() => {
-            if (window.innerWidth < window.innerHeight) {
+            if ((window.innerWidth || window.outerWidth || screen.width) < (window.innerHeight || window.outerHeight || screen.height)) {
                 that.reverse();
             } else {
                 that.normal();
@@ -60,6 +60,12 @@ class PageWrapper {
             window.addEventListener("resize", this.forceLandscape);
             window.onorientationchange = this.forceLandscape;
         }, 300)
+    }
+
+    forceOriginal() {
+        window.removeEventListener("resize", this.forcePortrait);
+        window.removeEventListener("resize", this.forceLandscape);
+        window.onorientationchange = null;
     }
 }
 
