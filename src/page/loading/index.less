@@ -5,7 +5,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(-45deg, #0288C7 0, #02CEEF 100%);
+  background: linear-gradient(to top, #0288C7 0, #0291CD 50%, #02CEEF 100%);
   .container {
     position: absolute;
     width: 80%;
@@ -44,25 +44,45 @@
       transform: translateX(-50%);
       transition: margin-left .1s linear;
     }
-    .bar {
+    @keyframes loop {
+      0% {
+        background-position-x: 0;
+      }
+      100% {
+        background-position-x: 100%;
+      }
+    }
+    .bar-container {
       position: relative;
-      width: 100%;
-      height: 20px;
-      //background: url("./bg.png") left top repeat;
-      background: #BFBFBF;
+      background: #CDCDCD;
       border-radius: 20px;
       overflow: hidden;
       margin-top: 2px;
-      box-shadow: 0px 0px 18px 6px #aeaeaeaa;
+      height: 20px;
+      width: 100%;
+      box-shadow: 0 4px 4px -4px rgba(255, 255, 255, 0.4), 0px -3px 3px -3px rgba(255, 255, 255, 0.25), inset 0px 0px 12px 0px rgba(0, 0, 0, 0.5);
       .now {
         position: absolute;
         top: 0;
         left: 0;
-        background: #048ECB;
+        background: linear-gradient(to top, #077FB1 30%, #78C4E2 100%);
         width: 0;
         height: 100%;
         transition: width .1s linear;
       }
+      .bar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        //background: #BFBFBF;
+        background-image: linear-gradient(-45deg, transparent 0%, transparent 50%, #fff 50%, #fff 52%, transparent 52%, transparent 100%);
+        background-size: 20px 20px;
+        background-repeat: repeat;
+        animation: loop 6s infinite linear;
+      }
+
     }
     .progress {
       margin-top: 10px;

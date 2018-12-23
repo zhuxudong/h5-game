@@ -4,7 +4,7 @@ import "./index.less";
 class Loading {
     $page = $(page);
     $icon = this.$page.find(".role-move-icon");
-    $bar = this.$page.find(".bar .now");
+    $bar = this.$page.find(".now");
     $progress = this.$page.find(".progress");
     $preload = this.$page.find("#preload").children();
 
@@ -34,7 +34,7 @@ class Loading {
             if (completeAmount === amount) {
                 this.setPercent(100);
                 setTimeout(() => {
-                    this.hidePage();
+                    // this.hidePage();
                 }, 500)
             } else {
                 this.setPercent(completeAmount / amount * 100);
